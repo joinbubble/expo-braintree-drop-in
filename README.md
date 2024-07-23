@@ -20,7 +20,7 @@ You must have an existing Expo project (>= 50.0)
 ### Terminal
 
 ```
-npm install expo-braintree-drop-in
+npm install @joinbubble/expo-braintree-drop-in
 ```
 
 ## Configuration
@@ -89,7 +89,7 @@ module.exports = (config, { braintreeMerchantId }) => {
 };
 ```
 
-Then declare that plugin in your `app.config.js`
+Then declare `expo-braintree-drop-in` and your custom plugin in `app.config.js`
 
 ```js
 // app.config.js
@@ -97,6 +97,7 @@ Then declare that plugin in your `app.config.js`
 // add to the exported config
 plugins: [
   // ...,
+  "@joinbubble/expo-braintree-drop-in",
   [
     "./plugins/index.js",
     { braintreeMerchantId: process.env.BRAINTREE_MERCHANT_ID },
