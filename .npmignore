@@ -8,5 +8,5 @@ __mocks__
 __tests__
 
 # Exclude typscript source files
-src
+src/**/*.ts
 plugin/src

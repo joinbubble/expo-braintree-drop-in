@@ -27,8 +27,10 @@ npm install @joinbubble/expo-braintree-drop-in
 
 ### Environment variables
 
-Create an environment variable called `BRAINTREE_MERCHANT_ID`. (We do not need the prefix `EXPO_PUBLIC`)
+Create an environment variable called `BRAINTREE_MERCHANT_ID`. (You do not need the prefix `EXPO_PUBLIC`)
 Use this variable to set your [merchantId](https://developer.paypal.com/braintree/articles/control-panel/important-gateway-credentials#merchant-id) based on your environment.
+
+_**IMPORTANT: Use a merchant id containing `sandbox` for your test environments for GooglePay to initialise with `TEST`.**_
 
 ex `eas.json`:
 
@@ -48,8 +50,6 @@ ex `eas.json`:
   }
 }
 ```
-
-_**IMPORTANT: Use a merchant id containing `sandbox` for your test environments for GooglePay to initialise with `TEST`.**_
 
 ### Plugins
 
@@ -104,16 +104,6 @@ plugins: [
   ],
 ];
 ```
-
-### Prepare your builds
-
-In you terminal, run
-
-```
-  npx eas prebuild
-```
-
-_NOTE: We also recommend you to run your app using the eas command at least once before triggering builds from Android Studio or XCode_
 
 ## Usage
 
@@ -219,7 +209,7 @@ function CheckoutButton() {
 }
 ```
 
-`result` is also a string that represent the nonce that you can return to your server.
+`result` is also a string that represents the nonce that can be returned to your server.
 
 ## References
 
