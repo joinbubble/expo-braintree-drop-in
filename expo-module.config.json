@@ -1,0 +1,10 @@
+{
+  "platforms": ["ios", "android"],
+  "ios": {
+    "modules": ["ExpoBraintreeDropInModule"],
+    "appDelegateSubscribers": ["ExpoBraintreeDropInAppDelegate"]
+  },
+  "android": {
+    "modules": ["expo.modules.braintreedropin.ExpoBraintreeDropInModule"]
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "name": "@joinbubble/expo-braintree-drop-in",
+  "version": "0.1.0",
+  "description": "Expo integration for Braintree DropIn UI",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "scripts": {
+    "build": "expo-module build",
+    "clean": "expo-module clean",
+    "lint": "expo-module lint",
+    "test": "expo-module test",
+    "preprepare": "expo-module prepare plugin",
+    "prepare": "expo-module prepare",
+    "prepublishOnly": "expo-module prepublishOnly",
+    "expo-module": "expo-module"
+  },
+  "keywords": [
+    "react-native",
+    "expo",
+    "braintree-drop-in",
+    "expo-braintree-drop-in",
+    "ExpoBraintreeDropIn"
+  ],
+  "repository": "https://github.com/joinbubble/expo-braintree-drop-in",
+  "bugs": {
+    "url": "https://github.com/joinbubble/expo-braintree-drop-in/issues"
+  },
+  "author": "Sylvain Rascar <sylvain@joinbubble.com> (https://github.com/srascar-bubble)",
+  "license": "MIT",
+  "homepage": "https://github.com/joinbubble/expo-braintree-drop-in#readme",
+  "devDependencies": {
+    "expo-module-scripts": "^3.4.1"
+  },
+  "peerDependencies": {
+    "expo": "*"
+  }
+}
