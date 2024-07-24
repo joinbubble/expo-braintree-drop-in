@@ -1,12 +1,9 @@
 {
   "name": "@joinbubble/expo-braintree-drop-in",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "description": "Expo integration for Braintree DropIn UI",
   "main": "build/index.js",
   "types": "build/index.d.ts",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
-  },
   "scripts": {
     "build": "expo-module build",
     "clean": "expo-module clean",

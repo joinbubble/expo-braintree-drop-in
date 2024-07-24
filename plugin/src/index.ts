@@ -1,20 +1,47 @@
-import { GradleProjectFile } from '@expo/config-plugins/build/android/Paths';
+import { GradleProjectFile } from "@expo/config-plugins/build/android/Paths";
 import {
   ConfigPlugin,
   ExportedConfigWithProps,
   createRunOncePlugin,
   withAppBuildGradle,
-} from 'expo/config-plugins';
+  withAndroidManifest,
+  withInfoPlist,
+  AndroidConfig,
+} from "expo/config-plugins";
 
-const pkg = require('../../package.json');
+const pkg = require("../../package.json");
 
-const withBraintreeDropIn: ConfigPlugin = (config) => {
+const withBraintreeDropIn: ConfigPlugin<{ braintreeMerchantId: string }> = (
+  config,
+  { braintreeMerchantId }
+) => {
+  config = withInfoPlist(config, (internalConfig) => {
+    internalConfig.modResults.BRAINTREE_MERCHANT_ID = braintreeMerchantId;
+
+    return internalConfig;
+  });
+
+  config = withAndroidManifest(config, (internalConfig) => {
+    const mainApplication = AndroidConfig.Manifest.getMainApplicationOrThrow(
+      internalConfig.modResults
+    );
+
+    AndroidConfig.Manifest.addMetaDataItemToMainApplication(
+      mainApplication,
+      "expo.modules.braintreedropin.BRAINTREE_MERCHANT_ID",
+      braintreeMerchantId,
+      "value"
+    );
+
+    return internalConfig;
+  });
+
   return withAppBuildGradle(config, (internalConfig) => {
-    if (internalConfig.modResults.language === 'groovy') {
+    if (internalConfig.modResults.language === "groovy") {
       appendCardinalMobileRepository(internalConfig);
     } else {
       throw new Error(
-        'Cannot add Braintree DropIn maven gradle because the build.gradle is not groovy'
+        "Cannot add Braintree DropIn maven gradle because the build.gradle is not groovy"
       );
     }
     return internalConfig;

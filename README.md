@@ -51,45 +51,7 @@ ex `eas.json`:
 }
 ```
 
-### Plugins
-
-Create an expo plugin to inject these variable in your info.plist / AndroidManifest.xml
-
-```js
-// ./plugins/index.js
-const {
-  withAndroidManifest,
-  withInfoPlist,
-  AndroidConfig,
-} = require("@expo/config-plugins");
-
-module.exports = (config, { braintreeMerchantId }) => {
-  config = withInfoPlist(config, (internalConfig) => {
-    internalConfig.modResults.BRAINTREE_MERCHANT_ID = braintreeMerchantId;
-
-    return internalConfig;
-  });
-
-  config = withAndroidManifest(config, (internalConfig) => {
-    const mainApplication = AndroidConfig.Manifest.getMainApplicationOrThrow(
-      internalConfig.modResults
-    );
-
-    AndroidConfig.Manifest.addMetaDataItemToMainApplication(
-      mainApplication,
-      "expo.modules.braintreedropin.BRAINTREE_MERCHANT_ID",
-      braintreeMerchantId,
-      "value"
-    );
-
-    return internalConfig;
-  });
-
-  return config;
-};
-```
-
-Then declare `expo-braintree-drop-in` and your custom plugin in `app.config.js`
+Then declare `expo-braintree-drop-in` in `app.config.js`
 
 ```js
 // app.config.js
@@ -97,9 +59,8 @@ Then declare `expo-braintree-drop-in` and your custom plugin in `app.config.js`
 // add to the exported config
 plugins: [
   // ...,
-  "@joinbubble/expo-braintree-drop-in",
   [
-    "./plugins/index.js",
+    "@joinbubble/expo-braintree-drop-in",
     { braintreeMerchantId: process.env.BRAINTREE_MERCHANT_ID },
   ],
 ];
