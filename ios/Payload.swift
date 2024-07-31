@@ -36,4 +36,7 @@ struct Payload: Record {
     
     @Field
     var transactionLabel: String = ""
+
+    @Field
+    var vaultManagerEnabled: Bool = false
 }

@@ -42,6 +42,7 @@ class ExpoBraintreeDropInModule : Module() {
       val dropInRequest = DropInRequest()
       dropInRequest.threeDSecureRequest = threeDSecureRequest
       dropInRequest.isPayPalDisabled = true // Disable PayPal option
+      dropInRequest.isVaultManagerEnabled = payload.vaultManagerEnabled
 
       if (payload.showMobilePay) {
         val googlePayRequest = generateGooglePayRequest(payload)

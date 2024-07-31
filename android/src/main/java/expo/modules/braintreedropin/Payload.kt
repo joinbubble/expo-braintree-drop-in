@@ -39,4 +39,7 @@ class Payload: Record {
 
   @Field
   val transactionLabel = ""
+
+  @Field
+  val vaultManagerEnabled = false
 }

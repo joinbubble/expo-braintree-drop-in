@@ -31,6 +31,7 @@ class ExpoBraintreeDropInController: UIViewController, BTThreeDSecureRequestDele
         request.threeDSecureRequest = threeDSecureRequest
         request.paypalDisabled = true // Disable PayPal option
         request.applePayDisabled = !payload.showMobilePay
+        request.vaultManager = payload.vaultManagerEnabled
 
         let dropInController = BTDropInController(authorization: token, request: request)
         { (controller, result, error) in

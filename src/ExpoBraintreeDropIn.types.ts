@@ -11,4 +11,5 @@ export interface Payload {
   nonce?: string;
   showMobilePay?: boolean;
   transactionLabel?: string;
+  vaultManagerEnabled?: boolean;
 }
