@@ -1,6 +1,7 @@
 package expo.modules.braintreedropin
 
 import com.braintreepayments.api.DropInClient
+import com.braintreepayments.api.ThreeDSecureClient
 
 class ExpoBraintreeDropInClientHolder private constructor() {
   companion object {
@@ -14,4 +15,5 @@ class ExpoBraintreeDropInClientHolder private constructor() {
   }
 
   lateinit var braintreeDropInClient : DropInClient
+  lateinit var threeDSecureClient : ThreeDSecureClient
 }

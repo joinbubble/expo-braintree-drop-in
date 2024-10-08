@@ -23,8 +23,17 @@ public class ExpoBraintreeDropInModule: Module {
         }.runOnQueue(.main)
 
         AsyncFunction("verify") { (payload: Payload, token: String, promise: Promise) -> Void in
+          
+            let screen = UIApplication.shared.windows.filter {$0.isKeyWindow}.first
+            let rootController = screen?.rootViewController?.presentedViewController;
             let moduleController = ExpoBraintreeDropInController()
             moduleController.verify(payload: payload, token: token, promise: promise)
+
+            if (rootController == nil) {
+                screen?.rootViewController?.present(moduleController, animated: true)
+            } else {
+                rootController!.present(moduleController, animated: true);
+            }
         }.runOnQueue(.main)
     }
 }

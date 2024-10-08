@@ -79,13 +79,15 @@ class ExpoBraintreeDropInModule : Module() {
       }
 
       val threeDSecureRequest = this@ExpoBraintreeDropInModule.generateThreeDSecureRequest(payload)
+      threeDSecureRequest.nonce = payload.nonce
       val dropInRequest = DropInRequest()
       dropInRequest.threeDSecureRequest = threeDSecureRequest
       dropInRequest.isPayPalDisabled = true // Disable PayPal option
 
       val listener = ExpoBraintreeThreeDSListener(promise)
-      val braintreeClient = BraintreeClient(context, token)
-      val threeDSecureClient = ThreeDSecureClient(currentActivity as FragmentActivity, braintreeClient)
+      val tokenProvider = ExpoBraintreeDropInTokenProvider.getInstance()
+      tokenProvider.token = token
+      val threeDSecureClient = ExpoBraintreeDropInClientHolder.getInstance().threeDSecureClient
       threeDSecureClient.setListener(listener)
 
       threeDSecureClient.performVerification(currentActivity as FragmentActivity, threeDSecureRequest) { threeDSecureLookupResult, lookupError ->

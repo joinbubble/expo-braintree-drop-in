@@ -76,22 +76,27 @@ class ExpoBraintreeDropInController: UIViewController, BTThreeDSecureRequestDele
         let paymentFlowDriver = BTPaymentFlowDriver(apiClient: braintreeApiClient!)
 
         paymentFlowDriver.viewControllerPresentingDelegate = self
-
+      
         paymentFlowDriver.startPaymentFlow(threeDSecureRequest, completion: {(result, error) in
-            let threeDSecureResult = result as! BTThreeDSecureResult
 
             if let error = error {
                 promise.reject(error)
+                self.dismiss(animated: true, completion: nil)
+
                 return
             }
+          
+            let threeDSecureResult = result as! BTThreeDSecureResult
 
             guard let tokenizedCard = threeDSecureResult.tokenizedCard else {
                 let noTokenisedCardError = NSError(domain: "", code: 400, userInfo: [ NSLocalizedDescriptionKey: "No tokenised card returned"])
                 promise.reject(noTokenisedCardError)
+                self.dismiss(animated: true, completion: nil)
                 return
             }
 
             promise.resolve(tokenizedCard.nonce)
+            self.dismiss(animated: true, completion: nil)
         })
     }
     
@@ -174,7 +179,7 @@ class ExpoBraintreeDropInController: UIViewController, BTThreeDSecureRequestDele
     private func createApplePayRequest(payload: Payload) -> PKPaymentRequest {
         let paymentRequest = PKPaymentRequest()
         let merchantIdentifier = Bundle.main.object(forInfoDictionaryKey: "BRAINTREE_MERCHANT_ID") as? String
-        let applePayClient = BTApplePayClient(apiClient: self.btApiClient!)
+        var applePayClient = BTApplePayClient(apiClient: self.btApiClient!)
         
         paymentRequest.requiredBillingContactFields = [.postalAddress]
 
