@@ -10,6 +10,7 @@ struct Result {
 
 class ExpoBraintreeDropInController: UIViewController, BTThreeDSecureRequestDelegate, BTViewControllerPresentingDelegate, PKPaymentAuthorizationViewControllerDelegate {
     private var promise: Promise? = nil
+    private var applePayComplete: Bool = false
     private var btApiClient: BTAPIClient? = nil
     
     func paymentDriver(_ driver: Any, requestsPresentationOf viewController: UIViewController) {
@@ -43,13 +44,14 @@ class ExpoBraintreeDropInController: UIViewController, BTThreeDSecureRequestDele
                     promise.reject(cancelledError)
                 } else if result.paymentMethodType == .applePay {
                     self.promise = promise
+                    self.applePayComplete = false
                     self.btApiClient = BTAPIClient(authorization: token)
                     let paymentRequest = self.createApplePayRequest(payload: payload)
                     let applePayController = PKPaymentAuthorizationViewController(paymentRequest: paymentRequest)
                     applePayController!.delegate = self
 
-                    self.reactRoot()?.present(applePayController!, animated: true)
-                    
+                    controller.present(applePayController!, animated: true)
+                    return
                 } else {
                     let selectedPaymentMethod = result.paymentMethod
                     promise.resolve(selectedPaymentMethod?.nonce ?? "")
@@ -123,6 +125,7 @@ class ExpoBraintreeDropInController: UIViewController, BTThreeDSecureRequestDele
             
             // Tokenize the Apple Pay payment
             applePayClient.tokenizeApplePay(payment) { (tokenizedApplePayPayment, error) in
+                self.applePayComplete = true
                 if error != nil {
                     self.promise!.reject(error!)
                     completion(PKPaymentAuthorizationResult(status: .failure, errors: nil))
@@ -136,6 +139,9 @@ class ExpoBraintreeDropInController: UIViewController, BTThreeDSecureRequestDele
 
     func paymentAuthorizationViewControllerDidFinish(_ controller : PKPaymentAuthorizationViewController) {
         controller.dismiss(animated: true, completion: nil)
+        if (self.applePayComplete) {
+          self.reactRoot()?.dismiss(animated: true, completion: nil)
+        }
     }
     
     private func generateThreeDSecureRequest(payload: Payload) -> BTThreeDSecureRequest {
@@ -179,7 +185,6 @@ class ExpoBraintreeDropInController: UIViewController, BTThreeDSecureRequestDele
     private func createApplePayRequest(payload: Payload) -> PKPaymentRequest {
         let paymentRequest = PKPaymentRequest()
         let merchantIdentifier = Bundle.main.object(forInfoDictionaryKey: "BRAINTREE_MERCHANT_ID") as? String
-        var applePayClient = BTApplePayClient(apiClient: self.btApiClient!)
         
         paymentRequest.requiredBillingContactFields = [.postalAddress]
 

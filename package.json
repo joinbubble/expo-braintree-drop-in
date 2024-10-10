@@ -1,6 +1,6 @@
 {
   "name": "@joinbubble/expo-braintree-drop-in",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Expo integration for Braintree DropIn UI",
   "main": "build/index.js",
   "types": "build/index.d.ts",
