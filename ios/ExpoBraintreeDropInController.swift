@@ -40,7 +40,7 @@ class ExpoBraintreeDropInController: UIViewController, BTThreeDSecureRequestDele
                 promise.reject(error)
             } else if let result = result {
                 if result.isCanceled {
-                    let cancelledError = NSError(domain: "", code: 400, userInfo: [ NSLocalizedDescriptionKey: "Transaction cancelled by user"])
+                    let cancelledError = NSError(domain: "", code: 400, userInfo: [ NSLocalizedDescriptionKey: "User canceled DropIn."])
                     promise.reject(cancelledError)
                 } else if result.paymentMethodType == .applePay {
                     self.promise = promise
