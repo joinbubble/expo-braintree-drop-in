@@ -29,7 +29,8 @@
   "license": "MIT",
   "homepage": "https://github.com/joinbubble/expo-braintree-drop-in#readme",
   "devDependencies": {
-    "expo-module-scripts": "^3.4.1"
+    "expo-module-scripts": "^4.0.4",
+    "typescript": "~5.3.3"
   },
   "peerDependencies": {
     "expo": "*"
